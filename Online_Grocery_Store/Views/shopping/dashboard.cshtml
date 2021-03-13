@@ -1,0 +1,157 @@
+﻿@model IEnumerable<Online_Grocery_Store.Models.Booking>
+@{
+    ViewBag.Title = "dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/Dashboard.css" rel="stylesheet" /> <!--dashboard css file-->
+
+<!--Customer dashboard page-->>
+
+
+<h1>dashboard</h1>
+
+@if (ViewBag.orderCount == "noOrder")
+{
+
+    <h3>You Have No Order</h3> <!--Message In case there are no previous orders-->
+
+
+
+
+}
+else
+{
+<div id="tale">
+    <div class="form-group">
+        <label for="myInput">Search</label>
+        <input type="text" id="myInput" class="form-control">
+    </div>
+    <table class="container table" id="myTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Amount Paid</th>
+                <th>Delivery Time</th>
+                <th>Status</th>
+                <th>delivered Date</th>
+                <th>Booking Date</th>
+                <th>Bill</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+
+                <tr>
+
+                    <td>@item.Name</td>
+                    <td>@item.Address</td>
+                    <td>@item.AmountPaid</td>
+                    <td>@item.time.availableTime</td>
+                    <td>@item.Status</td>
+                    @if (item.DeliveredDate == null)
+                    {
+                        <td>Not Delivered yet</td>
+                    }
+                    else
+                    {
+                        <td> item.DeliveredDate </td>
+                    }
+                    <td>@item.BookingDate</td>
+                    <td>@Html.ActionLink("Bill", "Billing", "shopping", new { bookID = item.BookingId }, null)</td>
+                </tr>
+
+
+            }
+        </tbody>
+
+    </table>
+</div>
+
+
+
+
+}
+
+<h3>@Html.ActionLink("Order Now", "Order", "shopping", new { userId = ViewBag.userID }, null)</h3> <!--ActionLink to new order page-->
+<h4>@Html.ActionLink("LogOut", "Logout", "user", null, new { id = "logId" })</h4> <!--ActionLink to login Page-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--Script section contains two script one to remove information from local storage and other to filter the table-->>
+
+
+@section scripts{
+
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+    <script>
+
+        $("#logId").click(function () {
+
+            // var idData=localStorage.getItem("id");
+
+            localStorage.clear();
+
+
+
+        });
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#myInput").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+
+
+
+
+
+
+
+
+
+
+}
+

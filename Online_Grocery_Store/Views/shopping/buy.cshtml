@@ -1,0 +1,123 @@
+﻿@model Online_Grocery_Store.ViewModel.BookingDateViewModel
+@{
+    ViewBag.Title = "buy";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    body{
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.42em;
+    color: #A7A1AE;
+    background-color: #1F2739;
+    
+}
+
+    
+
+    #shadow:hover {
+
+        background-color: #FFF842;
+        color: #403E10;
+        font-weight: bold;
+        box-shadow: #7F7C21 -1px 1px, #7F7C21 -2px 2px, #7F7C21 -3px 3px, #7F7C21 -4px 4px, #7F7C21 -5px 5px, #7F7C21 -6px 6px;
+        transform: translate3d(6px, -6px, 0);
+        transition-delay: 0s;
+        transition-duration: 0.4s;
+        transition-property: all;
+    }
+
+</style>
+
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+<!--Order details page-->
+
+<h2>buy</h2>
+
+
+<div class="form-group">
+    <input type="text" id="testText" readonly/> <!--Text box showing details obtained from browser local storage-->
+</div>
+
+<!--Html form to get customer details regarding order-->
+
+@using (Html.BeginForm("buy", "shopping", FormMethod.Post))
+{
+    <div class="form-group">
+        @Html.LabelFor(c => c.bookingViewModel.Name)
+        @Html.TextBoxFor(c => c.bookingViewModel.Name, new { @class = "form-control",id="shadow" })
+    </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(c => c.bookingViewModel.Address)
+        @Html.TextAreaFor(c => c.bookingViewModel.Address, new { @class = "form-control",id="shadow" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(c => c.bookingViewModel.time)
+        @Html.DropDownListFor(c => c.bookingViewModel.timeID, new SelectList(Model.timeViewModel, "timeid", "availableTime"), "Select Available Delivery Time", new { @class = "form-control",id="shadow" })
+    </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(c => c.bookingViewModel.AmountPaid)
+        @Html.TextBoxFor(c => c.bookingViewModel.AmountPaid, new { @readonly = "readonly", @class = "form-control", Value = ViewBag.Total,id="shadow" })
+    </div>
+
+    <div>
+        @Html.LabelFor(c=>c.user.email)
+        @Html.TextBoxFor(c => c.user.email, new { @readonly = "readonly", @class = "form-control", Value = ViewBag.email ,id="shadow"})
+        @Html.HiddenFor(c => c.bookingViewModel.userId, new { @Value = ViewBag.userId })
+
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary"id="shadow">Pay</button>
+    </div>
+
+
+
+
+
+
+
+
+
+}
+
+
+<!--Javascript to get customer details from browser local storage-->
+
+@section scripts{
+    
+    
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+    <script>
+
+        $(function () {
+
+
+            $("#testText").val(localStorage.getItem("id")) ;
+
+        });
+
+
+
+
+    </script>
+
+    
+    
+    
+    
+    
+    
+    
+    }

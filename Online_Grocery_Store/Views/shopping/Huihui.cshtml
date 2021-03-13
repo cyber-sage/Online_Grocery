@@ -1,0 +1,17 @@
+﻿@model IEnumerable<Online_Grocery_Store.Models.Test>
+@{
+    ViewBag.Title = "Huihui";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Huihui</h2>
+
+<table class="table">
+    @foreach (var item in Model) { 
+    <tr>
+        <td>@item.Name</td>
+    </tr>
+    
+    }
+</table>
+

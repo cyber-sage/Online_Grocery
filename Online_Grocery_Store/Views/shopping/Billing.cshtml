@@ -1,0 +1,68 @@
+﻿@model IEnumerable<Online_Grocery_Store.Models.BookedItems>
+@{
+    ViewBag.Title = "Billing";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/Dashboard.css" rel="stylesheet" />
+
+<!--complete cart detils of a order page-->
+
+<h1>Billing</h1>
+<div id="tale">
+
+    <div class="form-group">
+        <!--table filtering -->
+        <label for="myInput">Search</label>
+        <input type="text" id="myInput" class="form-control">
+    </div>
+    <table class="container table" id="myTable">
+
+        <tr>
+            <th>ProductName</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total Price</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>@item.productName</td>
+                <td>@item.Price</td>
+                <td>@item.Quantity</td>
+                <td>@item.totalPrice</td>
+            </tr>
+        }
+    </table>
+</div>
+<hr />
+<h1>Grand Total = @ViewBag.total</h1> <!--total price of cart items-->
+
+
+
+
+<!--Jquery script to filter a table using a search box-->
+
+@section scripts{
+
+
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#myInput").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+
+
+
+
+
+
+}

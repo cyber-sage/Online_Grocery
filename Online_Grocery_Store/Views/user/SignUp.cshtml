@@ -1,0 +1,82 @@
+﻿@model Online_Grocery_Store.Models.userData
+@{
+    ViewBag.Title = "SignUp";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!--Customer Signup Page-->
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>  <!--Client side validation using jquery-->>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+<link href="~/Content/Login.css" rel="stylesheet" /> <!--css file for login and signup page-->
+<script src="~/Scripts/bootstrap.min.js"></script>
+
+
+
+
+<body>
+    <div id="login">
+        <h3 class="text-center text-white pt-5">Login form</h3>
+        <div class="container">
+            <div id="login-row" class="row justify-content-center align-items-center">
+                <div id="login-column" class="col-md-6">
+                    <div id="login-box" class="col-md-12">
+
+
+                        <div class="text-danger">@ViewBag.email</div> <!--Error message Incase user already exists-->
+
+                        @using (Html.BeginForm("SignUp", "user", FormMethod.Post, new { id = "login-form" }))
+                        {                                                                           <!--Html form to get user details-->
+                            <h3 class="text-center text-info">SignUp</h3>
+                            <div class="form-group">
+                                @Html.LabelFor(c => c.email, new { @class = "text-info" })
+                                @Html.TextBoxFor(c => c.email, new { @class = "form-control", id = "email" })
+                                @Html.ValidationMessageFor(c => c.email, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(c => c.password, new { @class = "text-info" })
+                                @Html.PasswordFor(c => c.password, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(c => c.password, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                <button type="submit" id="store" class="btn btn-primary">Login</button>
+                            </div>
+                            <div>
+                                <p><b>Don't have a account @Html.ActionLink("Login", "Login", "user")</b></p> <!--ActionLink to Login Page-->
+                            </div>
+
+
+
+                        }
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+<!--javascript to hide logout button in login and Signup Page-->>
+
+@section scripts{
+
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+    
+    <script>
+
+        $("#logId").hide();
+    </script>
+
+}

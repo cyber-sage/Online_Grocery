@@ -1,0 +1,134 @@
+﻿@model Online_Grocery_Store.ViewModel.productSearchViewModel
+@{
+    ViewBag.Title = "Order";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    #shadow:hover {
+        background-color: #FFF842;
+        color: #403E10;
+        font-weight: bold;
+        box-shadow: #7F7C21 -1px 1px, #7F7C21 -2px 2px, #7F7C21 -3px 3px, #7F7C21 -4px 4px, #7F7C21 -5px 5px, #7F7C21 -6px 6px;
+        transform: translate3d(6px, -6px, 0);
+        transition-delay: 0s;
+        transition-duration: 0.4s;
+        transition-property: all;
+    }
+</style>
+
+<link href="~/Content/Dashboard.css" rel="stylesheet" />
+<!--Available Products table-->
+
+
+<h1>Order</h1>
+
+<!--html form to apply categories filtering and sorting -->
+
+@using (Html.BeginForm("Order", "shopping", FormMethod.Post))
+{
+
+
+
+    <div class="form-group">
+        @Html.LabelFor(c => c.cate.categoryName)
+        @Html.DropDownListFor(c => c.cate.categoryId, new SelectList(Model.categoryView, "categoryId", "categoryName"), "Select a Category",new {@class="form-control" })
+
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(c => c.sortTypeView.sortType)
+        @Html.DropDownListFor(c => c.sortTypeView.sortType, new SelectList(Model.sortView, "sortType", "sortType"), "Select filtering",new { @class="form-control"})
+
+    </div>
+    <div>@Html.HiddenFor(c => c.userId)</div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary" id="shadow">Apply Condition</button>
+    </div>
+
+
+
+
+
+
+
+}
+
+<div id="tale">
+    <div class="form-group"><!--search box to apply  table filtering-->
+        <label for="myInput">Search</label>
+        <input type="text" id="myInput" class="form-control">
+    </div>
+
+    <!--table showing all the available products-->
+    <table class="container table" id="myTable">
+        <tr>
+            <th>@Html.LabelFor(c => c.productLabelView.productName)</th>
+            <th>@Html.LabelFor(c => c.productLabelView.Category.categoryName)</th>
+            <th>@Html.LabelFor(c => c.productLabelView.Description)</th>
+            <th>@Html.LabelFor(c => c.productLabelView.Price)</th>
+            <th>Add Quantity</th>
+
+
+
+
+
+
+        </tr>
+
+        @foreach (var item in Model.productView)
+        {
+
+            <tr>
+                <td> @item.productName</td>
+                <td>@item.Category.categoryName</td>
+                <td>@item.Description</td>
+                <td>@item.Price</td>
+                <td>
+                    @using (Html.BeginForm("cartAdd", "shopping", FormMethod.Post))
+                    {
+                        @Html.TextBoxFor(c => c.quantity, new { id = "quantity1", type = "number", max = item.Quantity, min = "1", Value = "1", step = "1" })
+                        @Html.HiddenFor(c => c.userId, new { id = "IdUser" })
+                        @Html.HiddenFor(c => c.productID, new { @Value = item.productId })
+                        <button type="submit" class="btn btn-primary">Add To Cart</button>
+
+                    }
+                </td>
+            </tr>
+
+
+
+
+        }
+
+
+    </table>
+</div>
+
+
+<!--Jquery to apply table filtering in the table-->
+
+@section scripts{
+
+
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#myInput").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+
+
+
+
+
+
+}
+
